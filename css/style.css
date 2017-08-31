@@ -5,6 +5,7 @@ body {
 
 .main-content {
   display:flex;
+  margin-bottom: 20px;
 }
 
 #title {
@@ -38,7 +39,7 @@ body {
   margin-right:10px;
 }
 
-.board{ 
+.board{
   display:flex;
   margin-top:10px;
   justify-content:flex-start;
@@ -51,7 +52,7 @@ body {
 .box{
   text-align:center;
   border:darkblue solid 1px;
-  
+
 }
 
 .controls{
