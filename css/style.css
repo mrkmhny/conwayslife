@@ -1,19 +1,86 @@
+body {
+  background:lightgrey;
+  color:darkblue;
+}
+
+.main-content {
+  display:flex;
+}
+
+#title {
+  text-transform:uppercase;
+  font-family:georgia;
+  color:darkblue;
+  text-align:center;
+  font-size:30px;
+}
+
+#info ol {
+  padding-left:15px;
+}
+.info-header {
+  margin-top:0px;
+}
+
+@media (max-width:700px){
+  .main-content{
+    flex-direction:column;
+  }
+  #title {
+    text-align: left;
+  }
+  #info {
+    max-width:425px;
+  }
+}
+
+#app {
+  margin-right:10px;
+}
+
 .board{ 
   display:flex;
   margin-top:10px;
   justify-content:flex-start;
   align-content:flex-start;
   flex-wrap:wrap;
-  border:skyblue solid 2px;
+  border:darkblue solid 1px;
   height:300px;
 }
 
 .box{
   text-align:center;
-  border:blue solid 1px;*/
+  border:darkblue solid 1px;
   
 }
 
+.controls{
+  background:steelblue;
+  display:flex;
+  width:423px;
+  border:darkblue solid 2px;
+}
+
+.controls h4{
+  color:darkblue;
+  font-family: Helvetica;
+  margin:auto 5px;
+}
+
 button {
-  margin-right:5px;
+  margin:5px;
+  height: 30px;
+  border-radius:20%;
+  background:lightgrey;
+  text-transform: uppercase;
+  color:darkblue;
+  border:2px darkblue solid;
+}
+
+button:focus {
+  outline:none;
+}
+
+button:hover {
+  background:white;
 }

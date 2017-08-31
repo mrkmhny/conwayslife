@@ -92,8 +92,14 @@ var Board = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 
+    _this.stopInterval = function () {
+      clearInterval(clock);
+      _this.setState({ running: false });
+    };
+
     _this.state = {
-      boxes: initBoxes
+      boxes: initBoxes,
+      running: false
     };
     _this.birthBox = _this.birthBox.bind(_this);
     _this.checkNeighbors2 = _this.checkNeighbors2.bind(_this);
@@ -107,8 +113,6 @@ var Board = function (_React$Component) {
     var currentBoxes = this.state.boxes;
     var newBoxes = currentBoxes;
     var nextGen = [];
-    console.log(currentBoxes);
-
     for (var b = 0; b < currentBoxes.length; b++) {
       var livingNeighbors = 0;
 
@@ -132,19 +136,10 @@ var Board = function (_React$Component) {
     }
     generation++;
     this.setState({ boxes: newBoxes });
-
-    if (this.state.running === false) {
-      clearInterval(this.state.interval);
-    }
   };
 
   Board.prototype.repeatInterval = function repeatInterval() {
-    //this.setState({running:true})
     this.setState({ interval: setInterval(this.checkNeighbors2(), 5000) });
-  };
-
-  Board.prototype.stopInterval = function stopInterval() {
-    clearInterval(clock);
   };
 
   Board.prototype.birthBox = function birthBox(i) {
@@ -168,6 +163,8 @@ var Board = function (_React$Component) {
   };
 
   Board.prototype.render = function render() {
+    var _this2 = this;
+
     var board = this;
     var boxesRend = board.state.boxes.map(function (c, i, a) {
       var boxColor = c.alive ? 'steelblue' : 'lightgrey';
@@ -192,34 +189,42 @@ var Board = function (_React$Component) {
 
     return React.createElement(
       'div',
-      null,
+      { className: 'game' },
       React.createElement(
-        'h4',
-        null,
-        "Generation: " + generation
-      ),
-      React.createElement(
-        'button',
-        {
-          onClick: function onClick() {
-            clock = setInterval(board.checkNeighbors2, 100);
-          }
-        },
-        'Start'
-      ),
-      React.createElement(
-        'button',
-        {
-          onClick: board.stopInterval
-        },
-        'Stop'
-      ),
-      React.createElement(
-        'button',
-        {
-          onClick: board.clearBoxes
-        },
-        'Clear'
+        'div',
+        { className: 'controls' },
+        React.createElement(
+          'button',
+          {
+            onClick: function onClick() {
+              if (!_this2.state.running) {
+                clock = setInterval(board.checkNeighbors2, 100);
+                _this2.setState({ running: true });
+                console.log(_this2.state.running);
+              }
+            }
+          },
+          'Start'
+        ),
+        React.createElement(
+          'button',
+          {
+            onClick: board.stopInterval
+          },
+          'Stop'
+        ),
+        React.createElement(
+          'button',
+          {
+            onClick: board.clearBoxes
+          },
+          'Clear'
+        ),
+        React.createElement(
+          'h4',
+          { id: 'generation' },
+          "Generation: " + generation
+        )
       ),
       React.createElement(
         'div',

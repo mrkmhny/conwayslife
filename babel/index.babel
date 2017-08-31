@@ -165,6 +165,7 @@ class Board extends React.Component{
     super(props);
     this.state={
       boxes:initBoxes,
+      running:false
     };
     this.birthBox = this.birthBox.bind(this);
     this.checkNeighbors2 = this.checkNeighbors2.bind(this);
@@ -177,8 +178,6 @@ class Board extends React.Component{
     var currentBoxes = this.state.boxes;
     var newBoxes = currentBoxes;
     var nextGen = [];
-    console.log(currentBoxes)
-    
     for (var b=0;b<currentBoxes.length;b++){
       var livingNeighbors = 0;
 
@@ -207,20 +206,16 @@ class Board extends React.Component{
     }
     generation ++;
     this.setState({boxes: newBoxes});
-    
-    if (this.state.running === false){
-      clearInterval(this.state.interval);
-    }
   }
   
   repeatInterval(){
-    //this.setState({running:true})
     this.setState({interval:setInterval(this.checkNeighbors2(),5000)});
   }
   
-  stopInterval(){
-    clearInterval(clock)
-  }
+  stopInterval = () => {
+    clearInterval(clock);
+    this.setState({running:false});
+  };
   
   birthBox(i) {
     var newBoxes = this.state.boxes;
@@ -270,27 +265,36 @@ class Board extends React.Component{
     /////////////////.
     
     return (
-      <div>
-        <h4>{"Generation: "+ generation}</h4>
-        <button 
-          onClick={function(){clock = setInterval(board.checkNeighbors2,100)}}
-        >Start</button>
-        <button
-          onClick={board.stopInterval}
-          >Stop</button>
-        <button
-          onClick={board.clearBoxes}
-          >Clear
-        </button>
-        
+      <div className="game">
+        <div className="controls">
+          <button
+            onClick={() => {
+              if(!this.state.running){
+                clock = setInterval(board.checkNeighbors2,100)
+                this.setState({running:true})
+                console.log(this.state.running)
+              }
+            }}
+          >Start</button>
+          <button
+            onClick={board.stopInterval}
+            >Stop</button>
+          <button
+            onClick={board.clearBoxes}
+            >Clear
+          </button>
+          <h4 id="generation">
+            {"Generation: "+ generation}
+          </h4>
+        </div>
         <div 
           className="board"
           style={{
             width:ROWLENGTH*(BOXSIZE+BOXBORDER*2),
-            height:ROWLENGTH*(BOXSIZE+BOXBORDER*2)
+              height:ROWLENGTH*(BOXSIZE+BOXBORDER*2)
           }}
-        >
-            {boxesRend}
+          >
+          {boxesRend}
         </div>
       </div>
       );
